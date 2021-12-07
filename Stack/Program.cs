@@ -4,111 +4,56 @@ using System;
 
 class Stack<T>
 {
-    /*  public Stack()
-      {
-      }
-    */
 
     public class Node<T>
     {
-        public Node<T> next = null;
         public Node<T> previous = null;
         public T data;
     }
 
     private Node<T> root = null;
+    private Node<T> current=null;
     private Node<T> p;
-    private Node<T> p2;
 
     public void Push(T Data)
     {
-        p = root;
         Node<T> node = new Node<T>();
         node.data = Data;
-        if (root == null)
-        {
-            root = node;
-            return;
-        }
-        while (p.next != null)
-        {
-            p=p.next;
-        }
-        p.next = node;
-        node.previous = p;
+        p=node;
+        p.previous = current;
+        current = node;
+
     }
 
     public void Pop()
     {
+        p = current;
+        current=current.previous;
+        p.previous=null;
         
-        if (root == null)
-        {
-            return;
-        }
-
-        if (root.next == null)
-        {
-            root = null;
-            return;
-        }
-        p2 = root;
-        p =root.next;
-        while (p.next != null)
-        {
-            p = p.next;
-            p2 = p2.next;
-        }
-        p2.next=null;
-        p.previous = null;
     }
 
     public void Print()
     {
-        p = root;
+        p = current;
         while(p != null)
         {
             Console.WriteLine(p.data);
-            p = p.next;
+            p = p.previous;
         }
     }
 
     public T Peek()
     {
-        p = root;
-       /* if(p == null)
-        {
-            
-        }*/
-        while (p.next != null)
-        {
-            p = p.next;
-        }
-        return p.data;
+
+        return current.data;
     }
 
     public void Clear()
     {
 
-        if (root == null)
-        {
-            return;
-        }
-
-        if (root.next == null)
-        {
-            root = null;
-            return;
-        }
-        p2 = root;
-        p = root.next;
         root = null;
-        while (p != null && p2!=null)
-        {
-            p2.next = null;
-            p.previous = null;
-            p2 = p;
-            p = p.next;
-        }
+        current = root;
 
     }
 }
